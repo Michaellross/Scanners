@@ -3,32 +3,37 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Dashboard</title>
+  <title>Market Dashboard</title>
   <meta name="color-scheme" content="light dark" />
   <style>
     :root{
       --bg: #0b1220;
-      --panel: #0f1a2f;
-      --card: #111b33;
+      --panel: rgba(255,255,255,.05);
+      --panelSolid: #0f1a2f;
+      --card: rgba(255,255,255,.06);
       --text: #e7eefc;
       --muted:#a9b7d6;
-      --border: rgba(255,255,255,.10);
+      --border: rgba(255,255,255,.12);
       --accent:#4f8cff;
-      --accent2:#22c55e;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --ok:#22c55e;
+      --warn:#f59e0b;
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --radius: 16px;
     }
 
     @media (prefers-color-scheme: light){
       :root{
         --bg:#f4f7ff;
-        --panel:#ffffff;
+        --panel: rgba(2,6,23,.04);
+        --panelSolid:#ffffff;
         --card:#ffffff;
         --text:#0b1220;
         --muted:#4b5563;
         --border: rgba(15,23,42,.12);
         --accent:#2563eb;
-        --accent2:#16a34a;
-        --shadow: 0 10px 30px rgba(2,6,23,.10);
+        --ok:#16a34a;
+        --warn:#d97706;
+        --shadow: 0 14px 40px rgba(2,6,23,.12);
       }
     }
 
@@ -37,32 +42,33 @@
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 600px at 20% -10%, rgba(79,140,255,.25), transparent 55%),
-                  radial-gradient(900px 500px at 110% 10%, rgba(34,197,94,.18), transparent 55%),
-                  var(--bg);
       color:var(--text);
+      background:
+        radial-gradient(1100px 600px at 12% -10%, rgba(79,140,255,.22), transparent 60%),
+        radial-gradient(900px 500px at 110% 10%, rgba(34,197,94,.14), transparent 55%),
+        var(--bg);
     }
 
     .container{
       min-height:100%;
-      display:flex;
-      flex-direction:column;
-      max-width: 1200px;
+      max-width: 1240px;
       margin: 0 auto;
       padding: 16px;
+      display:flex;
+      flex-direction:column;
       gap: 12px;
     }
 
     .topbar{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:14px 14px 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,0));
       box-shadow: var(--shadow);
+      padding: 14px;
       backdrop-filter: blur(10px);
     }
 
-    .titleRow{
+    .topRow{
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
@@ -70,41 +76,63 @@
       flex-wrap: wrap;
     }
 
-    h1{
-      margin:0;
-      font-size:16px;
-      letter-spacing:.2px;
-      font-weight:700;
-    }
-    .subtitle{
-      margin:6px 0 0;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.4;
-      max-width: 70ch;
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap: 6px;
+      min-width: 240px;
     }
 
-    .actions{
+    .brand h1{
+      margin:0;
+      font-size: 15px;
+      letter-spacing: .25px;
+      font-weight: 800;
       display:flex;
-      gap:8px;
       align-items:center;
-      flex-wrap:wrap;
+      gap: 10px;
+    }
+
+    .pill{
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+    }
+
+    .subtitle{
+      margin:0;
+      font-size: 12px;
+      line-height: 1.4;
+      color: var(--muted);
+      max-width: 72ch;
+    }
+
+    .controls{
+      display:flex;
+      gap: 8px;
+      align-items:center;
+      flex-wrap: wrap;
+      justify-content:flex-end;
     }
 
     .btn{
       appearance:none;
       border:1px solid var(--border);
       background: rgba(255,255,255,.06);
-      color:var(--text);
-      border-radius: 10px;
-      padding: 9px 10px;
+      color: var(--text);
+      border-radius: 12px;
+      padding: 9px 11px;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 750;
       cursor: pointer;
       text-decoration:none;
       display:inline-flex;
       align-items:center;
-      gap:8px;
+      gap: 8px;
       transition: transform .06s ease, background .12s ease, border-color .12s ease;
       user-select:none;
       -webkit-tap-highlight-color: transparent;
@@ -115,8 +143,8 @@
       border-color: rgba(79,140,255,.55);
       background: rgba(79,140,255,.18);
     }
-    .btn.success{
-      border-color: rgba(34,197,94,.50);
+    .btn.ok{
+      border-color: rgba(34,197,94,.45);
       background: rgba(34,197,94,.14);
     }
 
@@ -132,7 +160,7 @@
       padding: 10px 12px;
       border-radius: 999px;
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--text);
       cursor:pointer;
       transition: background .12s ease, border-color .12s ease;
@@ -151,14 +179,14 @@
 
     .panel{
       flex:1;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
+      border:1px solid var(--border);
+      border-radius: var(--radius);
       overflow:hidden;
       box-shadow: var(--shadow);
+      background: var(--panelSolid);
       display:flex;
       flex-direction:column;
-      min-height: 70vh;
+      min-height: 72vh;
     }
 
     .panelHeader{
@@ -166,14 +194,29 @@
       align-items:center;
       justify-content:space-between;
       gap:10px;
-      padding: 12px 12px;
+      padding: 10px 12px;
       border-bottom:1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,0));
+    }
+
+    .panelHeader .left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width: 200px;
+    }
+
+    .dot{
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(79,140,255,.18);
     }
 
     .panelHeader .label{
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing:.2px;
     }
 
@@ -182,6 +225,7 @@
       gap:8px;
       flex-wrap:wrap;
       justify-content:flex-end;
+      align-items:center;
     }
 
     iframe{
@@ -198,122 +242,149 @@
       color: var(--muted);
       border-top: 1px solid var(--border);
       background: rgba(255,255,255,.03);
+      display:flex;
+      align-items:flex-start;
+      gap: 10px;
     }
 
-    /* Desktop layout: optional split view */
+    .hint strong{ color: var(--text); }
+    .hidden{ display:none !important; }
+
+    /* Split view */
     @media (min-width: 980px){
       .splitRow{
         display:grid;
         grid-template-columns: 1fr 1fr;
         gap: 12px;
       }
-      .panel{ min-height: 72vh; }
+      .panel{ min-height: 76vh; }
     }
 
-    .hidden{ display:none !important; }
+    /* Fullscreen polish */
+    .panel:fullscreen{
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .panel:-webkit-full-screen{
+      border-radius: 0;
+      box-shadow: none;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
     <div class="topbar">
-      <div class="titleRow">
-        <div>
-          <h1>Scanner Dashboard</h1>
+      <div class="topRow">
+        <div class="brand">
+          <h1>
+            Market Dashboard
+            <span class="pill">GitHub Pages</span>
+          </h1>
+          <p class="subtitle">
+            Tabs switch between views. Use <strong>Fullscreen</strong> to maximize the current panel. If a page won’t embed,
+            use <strong>Open in new tab</strong>.
+          </p>
         </div>
 
-       <div class="actions">
-          <!--<a class="btn primary" href="https://tinyurl.com/58s3ufy7" target="_blank" rel="noopener noreferrer">
-            🔗 Open Link 1
-          </a>-->
-          <a class="btn success" href="https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%22scalesProperties.scaleSeriesOnly%22%3Atrue%2C%22mainSeriesProperties.candleStyle.upColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.downColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.borderUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.borderDownColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.wickUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.wickDownColor%22%3A%22%23ef5350%22%2C%22paneProperties.background%22%3A%22%23131722%22%2C%22paneProperties.vertGridProperties.color%22%3A%22%23000000%22%2C%22paneProperties.horzGridProperties.color%22%3A%22%23000000%22%2C%22scalesProperties.textColor%22%3A%22%23AAA%22%2C%22mainSeriesProperties.visible%22%3Atrue%2C%22mainSeriesProperties.showPriceLine%22%3Atrue%2C%22mainSeriesProperties.priceLineWidth%22%3A1%2C%22mainSeriesProperties.priceLineColor%22%3A%22%232962FF%22%2C%22mainSeriesProperties.lockScale%22%3Afalse%2C%22mainSeriesProperties.autoScale%22%3Atrue%2C%22mainSeriesProperties.showCountdown%22%3Atrue%7D&enabled_features=%5B%22header_screenshot%22%2C%22timezone_menu%22%2C%22use_localstorage_for_settings%22%2C%22header_undo_redo%22%5D&disabled_features=%5B%22header_fullscreen_button%22%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_efbfc%22%2C%22interval%22%3A%225%22%2C%22hide_legend%22%3A%221%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%221%22%2C%22backgroundColor%22%3A%22%23ffffff%22%2C%22studies%22%3A%22PUB%3Bf6e13cfa8fb1462493984f329925c02b%5Cu001fPUB%3B6ac2587549144bc9a8cd6ae15730895b%5Cu001fPUB%3Baf2dc588b5f34409a046f96b625c9b6b%5Cu001fPUB%3B06fc6d6e9252415c9afdac437e0764dc%22%2C%22theme%22%3A%22light%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Europe%2FLondon%22%2C%22hide_volume%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22jifulive.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%2C%22page-uri%22%3A%22jifulive.com%2Feducation%2Fscanners%22%7D"
-             target="_blank" rel="noopener noreferrer">
-            📈 Open TradingView
-          </a>
+        <div class="controls">
+          <button class="btn" id="btnFullscreen" type="button" title="Fullscreen current view">⛶ Fullscreen</button>
+          <button class="btn" id="btnExitFullscreen" type="button" title="Exit fullscreen" style="display:none;">⛶ Exit</button>
+          <a class="btn primary" id="btnOpenCurrent" href="#" target="_blank" rel="noopener noreferrer">↗ Open current</a>
         </div>
       </div>
 
       <div class="tabs" role="tablist" aria-label="Views">
-        <button class="tab" id="tab-tv" role="tab" aria-selected="true" aria-controls="view-tv">Trend Wave</button>
-        <button class="tab" id="tab-link1" role="tab" aria-selected="false" aria-controls="view-link1">Sniper Pro</button>
+        <button class="tab" id="tab-tv" role="tab" aria-selected="true" aria-controls="view-tv">TradingView</button>
+        <button class="tab" id="tab-link1" role="tab" aria-selected="false" aria-controls="view-link1">Link 1</button>
         <button class="tab" id="tab-split" role="tab" aria-selected="false" aria-controls="view-split">Split View</button>
       </div>
     </div>
 
     <main class="main">
-      <!-- TradingView view -->
-      <section id="view-tv" class="panel" role="tabpanel" aria-labelledby="tab-tv">
+      <!-- TradingView -->
+      <section id="view-tv" class="panel" role="tabpanel" aria-labelledby="tab-tv" data-open-url="">
         <div class="panelHeader">
-          <div class="label">TradingView (BTCUSDT)</div>
+          <div class="left">
+            <span class="dot" aria-hidden="true"></span>
+            <div class="label">TradingView (BTCUSDT)</div>
+          </div>
           <div class="right">
-            <a class="btn success" href="https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%22scalesProperties.scaleSeriesOnly%22%3Atrue%2C%22mainSeriesProperties.candleStyle.upColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.downColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.borderUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.borderDownColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.wickUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.wickDownColor%22%3A%22%23ef5350%22%2C%22paneProperties.background%22%3A%22%23131722%22%2C%22paneProperties.vertGridProperties.color%22%3A%22%23000000%22%2C%22paneProperties.horzGridProperties.color%22%3A%22%23000000%22%2C%22scalesProperties.textColor%22%3A%22%23AAA%22%2C%22mainSeriesProperties.visible%22%3Atrue%2C%22mainSeriesProperties.showPriceLine%22%3Atrue%2C%22mainSeriesProperties.priceLineWidth%22%3A1%2C%22mainSeriesProperties.priceLineColor%22%3A%22%232962FF%22%2C%22mainSeriesProperties.lockScale%22%3Afalse%2C%22mainSeriesProperties.autoScale%22%3Atrue%2C%22mainSeriesProperties.showCountdown%22%3Atrue%7D&enabled_features=%5B%22header_screenshot%22%2C%22timezone_menu%22%2C%22use_localstorage_for_settings%22%2C%22header_undo_redo%22%5D&disabled_features=%5B%22header_fullscreen_button%22%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_efbfc%22%2C%22interval%22%3A%225%22%2C%22hide_legend%22%3A%221%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%221%22%2C%22backgroundColor%22%3A%22%23ffffff%22%2C%22studies%22%3A%22PUB%3Bf6e13cfa8fb1462493984f329925c02b%5Cu001fPUB%3B6ac2587549144bc9a8cd6ae15730895b%5Cu001fPUB%3Baf2dc588b5f34409a046f96b625c9b6b%5Cu001fPUB%3B06fc6d6e9252415c9afdac437e0764dc%22%2C%22theme%22%3A%22light%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Europe%2FLondon%22%2C%22hide_volume%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22jifulive.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%2C%22page-uri%22%3A%22jifulive.com%2Feducation%2Fscanners%22%7D"
-               target="_blank" rel="noopener noreferrer">Open in new tab</a>
+            <a class="btn ok" id="tvNewTab" target="_blank" rel="noopener noreferrer">↗ New tab</a>
           </div>
         </div>
 
-        <iframe
+        <iframe id="tvFrame"
           title="TradingView"
           loading="lazy"
           allow="fullscreen; clipboard-write"
-          referrerpolicy="no-referrer"
-          src="https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%22scalesProperties.scaleSeriesOnly%22%3Atrue%2C%22mainSeriesProperties.candleStyle.upColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.downColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.borderUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.borderDownColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.wickUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.wickDownColor%22%3A%22%23ef5350%22%2C%22paneProperties.background%22%3A%22%23131722%22%2C%22paneProperties.vertGridProperties.color%22%3A%22%23000000%22%2C%22paneProperties.horzGridProperties.color%22%3A%22%23000000%22%2C%22scalesProperties.textColor%22%3A%22%23AAA%22%2C%22mainSeriesProperties.visible%22%3Atrue%2C%22mainSeriesProperties.showPriceLine%22%3Atrue%2C%22mainSeriesProperties.priceLineWidth%22%3A1%2C%22mainSeriesProperties.priceLineColor%22%3A%22%232962FF%22%2C%22mainSeriesProperties.lockScale%22%3Afalse%2C%22mainSeriesProperties.autoScale%22%3Atrue%2C%22mainSeriesProperties.showCountdown%22%3Atrue%7D&enabled_features=%5B%22header_screenshot%22%2C%22timezone_menu%22%2C%22use_localstorage_for_settings%22%2C%22header_undo_redo%22%5D&disabled_features=%5B%22header_fullscreen_button%22%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_efbfc%22%2C%22interval%22%3A%225%22%2C%22hide_legend%22%3A%221%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%221%22%2C%22backgroundColor%22%3A%22%23ffffff%22%2C%22studies%22%3A%22PUB%3Bf6e13cfa8fb1462493984f329925c02b%5Cu001fPUB%3B6ac2587549144bc9a8cd6ae15730895b%5Cu001fPUB%3Baf2dc588b5f34409a046f96b625c9b6b%5Cu001fPUB%3B06fc6d6e9252415c9afdac437e0764dc%22%2C%22theme%22%3A%22light%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Europe%2FLondon%22%2C%22hide_volume%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22jifulive.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%2C%22page-uri%22%3A%22jifulive.com%2Feducation%2Fscanners%22%7D">
+          referrerpolicy="no-referrer">
         </iframe>
 
-        <div class="hint">Tip: On mobile, rotate your phone for more chart space.</div>
+        <div class="hint">
+          <span>💡</span>
+          <div><strong>Tip:</strong> On mobile, rotate your phone for more chart space.</div>
+        </div>
       </section>
 
-      <!-- Link 1 view -->
-      <section id="view-link1" class="panel hidden" role="tabpanel" aria-labelledby="tab-link1">
+      <!-- Link 1 -->
+      <section id="view-link1" class="panel hidden" role="tabpanel" aria-labelledby="tab-link1" data-open-url="">
         <div class="panelHeader">
-          <div class="label">Link 1</div>
+          <div class="left">
+            <span class="dot" aria-hidden="true"></span>
+            <div class="label">Link 1</div>
+          </div>
           <div class="right">
-            <a class="btn primary" href="https://tinyurl.com/58s3ufy7" target="_blank" rel="noopener noreferrer">Open in new tab</a>
+            <a class="btn primary" id="l1NewTab" target="_blank" rel="noopener noreferrer">↗ New tab</a>
           </div>
         </div>
 
-        <iframe
+        <iframe id="l1Frame"
           title="Link 1"
           loading="lazy"
-          referrerpolicy="no-referrer"
-          src="https://tinyurl.com/58s3ufy7">
+          referrerpolicy="no-referrer">
         </iframe>
 
-        <div class="hint">If this area is blank, the destination site is likely blocking embedding. Use the button above.</div>
+        <div class="hint">
+          <span>🔒</span>
+          <div><strong>If this is blank:</strong> the destination site likely blocks embedding. Use “New tab”.</div>
+        </div>
       </section>
 
-      <!-- Split view -->
+      <!-- Split -->
       <section id="view-split" class="hidden" role="tabpanel" aria-labelledby="tab-split">
         <div class="splitRow">
-          <div class="panel">
+          <div class="panel" id="splitLeft">
             <div class="panelHeader">
-              <div class="label">TradingView</div>
+              <div class="left">
+                <span class="dot" aria-hidden="true"></span>
+                <div class="label">TradingView</div>
+              </div>
               <div class="right">
-                <a class="btn success" href="https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%22scalesProperties.scaleSeriesOnly%22%3Atrue%2C%22mainSeriesProperties.candleStyle.upColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.downColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.borderUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.borderDownColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.wickUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.wickDownColor%22%3A%22%23ef5350%22%2C%22paneProperties.background%22%3A%22%23131722%22%2C%22paneProperties.vertGridProperties.color%22%3A%22%23000000%22%2C%22paneProperties.horzGridProperties.color%22%3A%22%23000000%22%2C%22scalesProperties.textColor%22%3A%22%23AAA%22%2C%22mainSeriesProperties.visible%22%3Atrue%2C%22mainSeriesProperties.showPriceLine%22%3Atrue%2C%22mainSeriesProperties.priceLineWidth%22%3A1%2C%22mainSeriesProperties.priceLineColor%22%3A%22%232962FF%22%2C%22mainSeriesProperties.lockScale%22%3Afalse%2C%22mainSeriesProperties.autoScale%22%3Atrue%2C%22mainSeriesProperties.showCountdown%22%3Atrue%7D&enabled_features=%5B%22header_screenshot%22%2C%22timezone_menu%22%2C%22use_localstorage_for_settings%22%2C%22header_undo_redo%22%5D&disabled_features=%5B%22header_fullscreen_button%22%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_efbfc%22%2C%22interval%22%3A%225%22%2C%22hide_legend%22%3A%221%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%221%22%2C%22backgroundColor%22%3A%22%23ffffff%22%2C%22studies%22%3A%22PUB%3Bf6e13cfa8fb1462493984f329925c02b%5Cu001fPUB%3B6ac2587549144bc9a8cd6ae15730895b%5Cu001fPUB%3Baf2dc588b5f34409a046f96b625c9b6b%5Cu001fPUB%3B06fc6d6e9252415c9afdac437e0764dc%22%2C%22theme%22%3A%22light%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Europe%2FLondon%22%2C%22hide_volume%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22jifulive.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%2C%22page-uri%22%3A%22jifulive.com%2Feducation%2Fscanners%22%7D"
-                   target="_blank" rel="noopener noreferrer">New tab</a>
+                <a class="btn ok" id="tvNewTab2" target="_blank" rel="noopener noreferrer">↗ New tab</a>
               </div>
             </div>
-            <iframe
+            <iframe id="tvFrame2"
               title="TradingView Split"
               loading="lazy"
               allow="fullscreen; clipboard-write"
-              referrerpolicy="no-referrer"
-              src="https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%22scalesProperties.scaleSeriesOnly%22%3Atrue%2C%22mainSeriesProperties.candleStyle.upColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.downColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.borderUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.borderDownColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.wickUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.wickDownColor%22%3A%22%23ef5350%22%2C%22paneProperties.background%22%3A%22%23131722%22%2C%22paneProperties.vertGridProperties.color%22%3A%22%23000000%22%2C%22paneProperties.horzGridProperties.color%22%3A%22%23000000%22%2C%22scalesProperties.textColor%22%3A%22%23AAA%22%2C%22mainSeriesProperties.visible%22%3Atrue%2C%22mainSeriesProperties.showPriceLine%22%3Atrue%2C%22mainSeriesProperties.priceLineWidth%22%3A1%2C%22mainSeriesProperties.priceLineColor%22%3A%22%232962FF%22%2C%22mainSeriesProperties.lockScale%22%3Afalse%2C%22mainSeriesProperties.autoScale%22%3Atrue%2C%22mainSeriesProperties.showCountdown%22%3Atrue%7D&enabled_features=%5B%22header_screenshot%22%2C%22timezone_menu%22%2C%22use_localstorage_for_settings%22%2C%22header_undo_redo%22%5D&disabled_features=%5B%22header_fullscreen_button%22%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_efbfc%22%2C%22interval%22%3A%225%22%2C%22hide_legend%22%3A%221%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%221%22%2C%22backgroundColor%22%3A%22%23ffffff%22%2C%22studies%22%3A%22PUB%3Bf6e13cfa8fb1462493984f329925c02b%5Cu001fPUB%3B6ac2587549144bc9a8cd6ae15730895b%5Cu001fPUB%3Baf2dc588b5f34409a046f96b625c9b6b%5Cu001fPUB%3B06fc6d6e9252415c9afdac437e0764dc%22%2C%22theme%22%3A%22light%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Europe%2FLondon%22%2C%22hide_volume%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22jifulive.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%2C%22page-uri%22%3A%22jifulive.com%2Feducation%2Fscanners%22%7D">
-            </iframe>
+              referrerpolicy="no-referrer"></iframe>
           </div>
 
-          <div class="panel">
+          <div class="panel" id="splitRight">
             <div class="panelHeader">
-              <div class="label">Link 1</div>
+              <div class="left">
+                <span class="dot" aria-hidden="true"></span>
+                <div class="label">Link 1</div>
+              </div>
               <div class="right">
-                <a class="btn primary" href="https://tinyurl.com/58s3ufy7" target="_blank" rel="noopener noreferrer">New tab</a>
+                <a class="btn primary" id="l1NewTab2" target="_blank" rel="noopener noreferrer">↗ New tab</a>
               </div>
             </div>
-            <iframe
+            <iframe id="l1Frame2"
               title="Link 1 Split"
               loading="lazy"
-              referrerpolicy="no-referrer"
-              src="https://tinyurl.com/58s3ufy7">
-            </iframe>
+              referrerpolicy="no-referrer"></iframe>
           </div>
         </div>
       </section>
@@ -321,6 +392,22 @@
   </div>
 
   <script>
+    // Your URLs
+    const LINK1 = "https://tinyurl.com/58s3ufy7";
+    const TV = "https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%22scalesProperties.scaleSeriesOnly%22%3Atrue%2C%22mainSeriesProperties.candleStyle.upColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.downColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.borderUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.borderDownColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.wickUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.wickDownColor%22%3A%22%23ef5350%22%2C%22paneProperties.background%22%3A%22%23131722%22%2C%22paneProperties.vertGridProperties.color%22%3A%22%23000000%22%2C%22paneProperties.horzGridProperties.color%22%3A%22%23000000%22%2C%22scalesProperties.textColor%22%3A%22%23AAA%22%2C%22mainSeriesProperties.visible%22%3Atrue%2C%22mainSeriesProperties.showPriceLine%22%3Atrue%2C%22mainSeriesProperties.priceLineWidth%22%3A1%2C%22mainSeriesProperties.priceLineColor%22%3A%22%232962FF%22%2C%22mainSeriesProperties.lockScale%22%3Afalse%2C%22mainSeriesProperties.autoScale%22%3Atrue%2C%22mainSeriesProperties.showCountdown%22%3Atrue%7D&enabled_features=%5B%22header_screenshot%22%2C%22timezone_menu%22%2C%22use_localstorage_for_settings%22%2C%22header_undo_redo%22%5D&disabled_features=%5B%22header_fullscreen_button%22%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_efbfc%22%2C%22interval%22%3A%225%22%2C%22hide_legend%22%3A%221%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%221%22%2C%22backgroundColor%22%3A%22%23ffffff%22%2C%22studies%22%3A%22PUB%3Bf6e13cfa8fb1462493984f329925c02b%5Cu001fPUB%3B6ac2587549144bc9a8cd6ae15730895b%5Cu001fPUB%3Baf2dc588b5f34409a046f96b625c9b6b%5Cu001fPUB%3B06fc6d6e9252415c9afdac437e0764dc%22%2C%22theme%22%3A%22light%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Europe%2FLondon%22%2C%22hide_volume%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22jifulive.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%2C%22page-uri%22%3A%22jifulive.com%2Feducation%2Fscanners%22%7D";
+
+    // Wire up iframes and "new tab" links
+    document.getElementById("tvFrame").src = TV;
+    document.getElementById("tvFrame2").src = TV;
+    document.getElementById("l1Frame").src = LINK1;
+    document.getElementById("l1Frame2").src = LINK1;
+
+    const tvNewTab = [ "tvNewTab", "tvNewTab2" ];
+    const l1NewTab = [ "l1NewTab", "l1NewTab2" ];
+    tvNewTab.forEach(id => document.getElementById(id).href = TV);
+    l1NewTab.forEach(id => document.getElementById(id).href = LINK1);
+
+    // Tabs
     const tabs = [
       { tab: "tab-tv", panel: "view-tv" },
       { tab: "tab-link1", panel: "view-link1" },
@@ -331,22 +418,103 @@
       for (const t of tabs){
         const tabEl = document.getElementById(t.tab);
         const panelEl = document.getElementById(t.panel);
-
         const active = (t.tab === tabId);
+
         tabEl.setAttribute("aria-selected", active ? "true" : "false");
         panelEl.classList.toggle("hidden", !active);
       }
+      syncOpenCurrent();
     }
 
-    for (const t of tabs){
+    tabs.forEach(t => {
       document.getElementById(t.tab).addEventListener("click", () => setActive(t.tab));
+    });
+
+    // Determine current visible panel (for fullscreen + open current)
+    function getCurrentPanel(){
+      // Only one of these three views is visible at once
+      const tv = document.getElementById("view-tv");
+      const l1 = document.getElementById("view-link1");
+      const split = document.getElementById("view-split");
+
+      if (!tv.classList.contains("hidden")) return tv;
+      if (!l1.classList.contains("hidden")) return l1;
+      return split; // split view container
     }
 
-    // Optional: support hash navigation (#tv, #link1, #split)
+    function getCurrentOpenUrl(){
+      const tv = document.getElementById("view-tv");
+      const l1 = document.getElementById("view-link1");
+      const split = document.getElementById("view-split");
+
+      if (!tv.classList.contains("hidden")) return TV;
+      if (!l1.classList.contains("hidden")) return LINK1;
+      // For split, open TradingView by default (you can change this)
+      return TV;
+    }
+
+    // Open current button
+    const btnOpenCurrent = document.getElementById("btnOpenCurrent");
+    function syncOpenCurrent(){
+      btnOpenCurrent.href = getCurrentOpenUrl();
+    }
+
+    // Fullscreen
+    const btnFs = document.getElementById("btnFullscreen");
+    const btnExit = document.getElementById("btnExitFullscreen");
+
+    async function enterFullscreen(){
+      const panel = getCurrentPanel();
+
+      // Fullscreen API requires a user gesture; this is called from a click.
+      const request =
+        panel.requestFullscreen ||
+        panel.webkitRequestFullscreen ||
+        panel.msRequestFullscreen;
+
+      if (!request) {
+        // Fallback: open current view in new tab
+        window.open(getCurrentOpenUrl(), "_blank", "noopener,noreferrer");
+        return;
+      }
+
+      try {
+        await request.call(panel);
+      } catch (e) {
+        // Some browsers block fullscreen in some contexts; fallback.
+        window.open(getCurrentOpenUrl(), "_blank", "noopener,noreferrer");
+      }
+    }
+
+    function exitFullscreen(){
+      const exit =
+        document.exitFullscreen ||
+        document.webkitExitFullscreen ||
+        document.msExitFullscreen;
+
+      if (exit) exit.call(document);
+    }
+
+    btnFs.addEventListener("click", enterFullscreen);
+    btnExit.addEventListener("click", exitFullscreen);
+
+    function onFsChange(){
+      const inFs = !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+      btnFs.style.display = inFs ? "none" : "";
+      btnExit.style.display = inFs ? "" : "none";
+    }
+
+    document.addEventListener("fullscreenchange", onFsChange);
+    document.addEventListener("webkitfullscreenchange", onFsChange);
+    document.addEventListener("MSFullscreenChange", onFsChange);
+
+    // Optional hash navigation: #tv #link1 #split
     const hash = (location.hash || "").replace("#", "");
     if (hash === "link1") setActive("tab-link1");
     else if (hash === "split") setActive("tab-split");
     else setActive("tab-tv");
+
+    syncOpenCurrent();
   </script>
 </body>
 </html>
