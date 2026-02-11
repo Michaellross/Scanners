@@ -3,92 +3,350 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Two Links – Clickable + Embedded</title>
+  <title>Dashboard</title>
+  <meta name="color-scheme" content="light dark" />
   <style>
-    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:#f6f7fb; }
-    header { padding: 18px 16px; background: #111827; color: #fff; }
-    header h1 { margin: 0 0 6px; font-size: 18px; }
-    header p { margin: 0; opacity: .85; font-size: 13px; }
-
-    .wrap { padding: 16px; max-width: 1200px; margin: 0 auto; }
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-bottom: 14px; }
-    .card {
-      display: block; text-decoration: none; color: #111827;
-      background: #fff; border: 1px solid #e5e7eb; border-radius: 12px;
-      padding: 14px; box-shadow: 0 1px 2px rgba(0,0,0,.04);
-      transition: transform .06s ease, box-shadow .06s ease, border-color .06s ease;
-    }
-    .card:hover { transform: translateY(-1px); border-color:#c7d2fe; box-shadow: 0 6px 20px rgba(0,0,0,.08); }
-    .card small { display:block; color:#6b7280; margin-top: 6px; word-break: break-all; }
-
-    .grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
-    @media (min-width: 980px) {
-      .grid { grid-template-columns: 1fr 1fr; }
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2f;
+      --card: #111b33;
+      --text: #e7eefc;
+      --muted:#a9b7d6;
+      --border: rgba(255,255,255,.10);
+      --accent:#4f8cff;
+      --accent2:#22c55e;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
     }
 
-    .panel {
-      background:#fff; border: 1px solid #e5e7eb; border-radius: 12px;
-      overflow: hidden;
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#f4f7ff;
+        --panel:#ffffff;
+        --card:#ffffff;
+        --text:#0b1220;
+        --muted:#4b5563;
+        --border: rgba(15,23,42,.12);
+        --accent:#2563eb;
+        --accent2:#16a34a;
+        --shadow: 0 10px 30px rgba(2,6,23,.10);
+      }
     }
-    .panel h2 {
-      margin: 0; padding: 10px 12px; font-size: 14px;
-      background: #f9fafb; border-bottom: 1px solid #e5e7eb;
-      display:flex; align-items:center; justify-content:space-between; gap: 10px;
+
+    *{ box-sizing:border-box; }
+    html, body { height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(79,140,255,.25), transparent 55%),
+                  radial-gradient(900px 500px at 110% 10%, rgba(34,197,94,.18), transparent 55%),
+                  var(--bg);
+      color:var(--text);
     }
-    .panel h2 a { font-size: 12px; color:#2563eb; text-decoration:none; }
-    .panel iframe { width: 100%; height: 70vh; border: 0; }
+
+    .container{
+      min-height:100%;
+      display:flex;
+      flex-direction:column;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px;
+      gap: 12px;
+    }
+
+    .topbar{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:14px 14px 10px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .titleRow{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    h1{
+      margin:0;
+      font-size:16px;
+      letter-spacing:.2px;
+      font-weight:700;
+    }
+    .subtitle{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.4;
+      max-width: 70ch;
+    }
+
+    .actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      appearance:none;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      border-radius: 10px;
+      padding: 9px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      transition: transform .06s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:hover{ background: rgba(255,255,255,.10); }
+    .btn:active{ transform: translateY(1px); }
+    .btn.primary{
+      border-color: rgba(79,140,255,.55);
+      background: rgba(79,140,255,.18);
+    }
+    .btn.success{
+      border-color: rgba(34,197,94,.50);
+      background: rgba(34,197,94,.14);
+    }
+
+    .tabs{
+      margin-top: 12px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .tab{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      cursor:pointer;
+      transition: background .12s ease, border-color .12s ease;
+    }
+    .tab[aria-selected="true"]{
+      border-color: rgba(79,140,255,.7);
+      background: rgba(79,140,255,.22);
+    }
+
+    .main{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .panel{
+      flex:1;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      display:flex;
+      flex-direction:column;
+      min-height: 70vh;
+    }
+
+    .panelHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding: 12px 12px;
+      border-bottom:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
+    }
+
+    .panelHeader .label{
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing:.2px;
+    }
+
+    .panelHeader .right{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    iframe{
+      width:100%;
+      height:100%;
+      border:0;
+      flex:1;
+      background: transparent;
+    }
+
+    .hint{
+      padding: 10px 12px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+    }
+
+    /* Desktop layout: optional split view */
+    @media (min-width: 980px){
+      .splitRow{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .panel{ min-height: 72vh; }
+    }
+
+    .hidden{ display:none !important; }
   </style>
 </head>
 
 <body>
-  <header>
-    <h1>Two Clickable Contents</h1>
-    <p>Click a card to open in a new tab, or use the embedded views below.</p>
-  </header>
+  <div class="container">
+    <div class="topbar">
+      <div class="titleRow">
+        <div>
+          <h1>Scanner Dashboard</h1>
+        </div>
 
-  <div class="wrap">
-    <!-- Clickable cards -->
-    <div class="cards">
-      <a class="card" href="https://tinyurl.com/58s3ufy7" target="_blank" rel="noopener noreferrer">
-        Open Link 1
-        <small>https://tinyurl.com/58s3ufy7</small>
-      </a>
+       <div class="actions">
+          <!--<a class="btn primary" href="https://tinyurl.com/58s3ufy7" target="_blank" rel="noopener noreferrer">
+            🔗 Open Link 1
+          </a>-->
+          <a class="btn success" href="https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%22scalesProperties.scaleSeriesOnly%22%3Atrue%2C%22mainSeriesProperties.candleStyle.upColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.downColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.borderUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.borderDownColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.wickUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.wickDownColor%22%3A%22%23ef5350%22%2C%22paneProperties.background%22%3A%22%23131722%22%2C%22paneProperties.vertGridProperties.color%22%3A%22%23000000%22%2C%22paneProperties.horzGridProperties.color%22%3A%22%23000000%22%2C%22scalesProperties.textColor%22%3A%22%23AAA%22%2C%22mainSeriesProperties.visible%22%3Atrue%2C%22mainSeriesProperties.showPriceLine%22%3Atrue%2C%22mainSeriesProperties.priceLineWidth%22%3A1%2C%22mainSeriesProperties.priceLineColor%22%3A%22%232962FF%22%2C%22mainSeriesProperties.lockScale%22%3Afalse%2C%22mainSeriesProperties.autoScale%22%3Atrue%2C%22mainSeriesProperties.showCountdown%22%3Atrue%7D&enabled_features=%5B%22header_screenshot%22%2C%22timezone_menu%22%2C%22use_localstorage_for_settings%22%2C%22header_undo_redo%22%5D&disabled_features=%5B%22header_fullscreen_button%22%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_efbfc%22%2C%22interval%22%3A%225%22%2C%22hide_legend%22%3A%221%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%221%22%2C%22backgroundColor%22%3A%22%23ffffff%22%2C%22studies%22%3A%22PUB%3Bf6e13cfa8fb1462493984f329925c02b%5Cu001fPUB%3B6ac2587549144bc9a8cd6ae15730895b%5Cu001fPUB%3Baf2dc588b5f34409a046f96b625c9b6b%5Cu001fPUB%3B06fc6d6e9252415c9afdac437e0764dc%22%2C%22theme%22%3A%22light%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Europe%2FLondon%22%2C%22hide_volume%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22jifulive.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%2C%22page-uri%22%3A%22jifulive.com%2Feducation%2Fscanners%22%7D"
+             target="_blank" rel="noopener noreferrer">
+            📈 Open TradingView
+          </a>
+        </div>
+      </div>
 
-      <a class="card" href="https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%22scalesProperties.scaleSeriesOnly%22%3Atrue%2C%22mainSeriesProperties.candleStyle.upColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.downColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.borderUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.borderDownColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.wickUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.wickDownColor%22%3A%22%23ef5350%22%2C%22paneProperties.background%22%3A%22%23131722%22%2C%22paneProperties.vertGridProperties.color%22%3A%22%23000000%22%2C%22paneProperties.horzGridProperties.color%22%3A%22%23000000%22%2C%22scalesProperties.textColor%22%3A%22%23AAA%22%2C%22mainSeriesProperties.visible%22%3Atrue%2C%22mainSeriesProperties.showPriceLine%22%3Atrue%2C%22mainSeriesProperties.priceLineWidth%22%3A1%2C%22mainSeriesProperties.priceLineColor%22%3A%22%232962FF%22%2C%22mainSeriesProperties.lockScale%22%3Afalse%2C%22mainSeriesProperties.autoScale%22%3Atrue%2C%22mainSeriesProperties.showCountdown%22%3Atrue%7D&enabled_features=%5B%22header_screenshot%22%2C%22timezone_menu%22%2C%22use_localstorage_for_settings%22%2C%22header_undo_redo%22%5D&disabled_features=%5B%22header_fullscreen_button%22%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_efbfc%22%2C%22interval%22%3A%225%22%2C%22hide_legend%22%3A%221%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%221%22%2C%22backgroundColor%22%3A%22%23ffffff%22%2C%22studies%22%3A%22PUB%3Bf6e13cfa8fb1462493984f329925c02b%5Cu001fPUB%3B6ac2587549144bc9a8cd6ae15730895b%5Cu001fPUB%3Baf2dc588b5f34409a046f96b625c9b6b%5Cu001fPUB%3B06fc6d6e9252415c9afdac437e0764dc%22%2C%22theme%22%3A%22light%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Europe%2FLondon%22%2C%22hide_volume%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22jifulive.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%2C%22page-uri%22%3A%22jifulive.com%2Feducation%2Fscanners%22%7D"
-         target="_blank" rel="noopener noreferrer">
-        Open TradingView Widget (Link 2)
-        <small>(long URL) TradingView embed</small>
-      </a>
+      <div class="tabs" role="tablist" aria-label="Views">
+        <button class="tab" id="tab-tv" role="tab" aria-selected="true" aria-controls="view-tv">Trend Wave</button>
+        <button class="tab" id="tab-link1" role="tab" aria-selected="false" aria-controls="view-link1">Sniper Pro</button>
+        <button class="tab" id="tab-split" role="tab" aria-selected="false" aria-controls="view-split">Split View</button>
+      </div>
     </div>
 
-    <!-- Embedded views -->
-    <div class="grid">
-      <section class="panel">
-        <h2>
-          Embedded Link 1
-          <a href="https://tinyurl.com/58s3ufy7" target="_blank" rel="noopener noreferrer">Open in new tab</a>
-        </h2>
-        <iframe
-          src="https://tinyurl.com/58s3ufy7"
-          loading="lazy"
-          referrerpolicy="no-referrer"
-        ></iframe>
-      </section>
+    <main class="main">
+      <!-- TradingView view -->
+      <section id="view-tv" class="panel" role="tabpanel" aria-labelledby="tab-tv">
+        <div class="panelHeader">
+          <div class="label">TradingView (BTCUSDT)</div>
+          <div class="right">
+            <a class="btn success" href="https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%22scalesProperties.scaleSeriesOnly%22%3Atrue%2C%22mainSeriesProperties.candleStyle.upColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.downColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.borderUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.borderDownColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.wickUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.wickDownColor%22%3A%22%23ef5350%22%2C%22paneProperties.background%22%3A%22%23131722%22%2C%22paneProperties.vertGridProperties.color%22%3A%22%23000000%22%2C%22paneProperties.horzGridProperties.color%22%3A%22%23000000%22%2C%22scalesProperties.textColor%22%3A%22%23AAA%22%2C%22mainSeriesProperties.visible%22%3Atrue%2C%22mainSeriesProperties.showPriceLine%22%3Atrue%2C%22mainSeriesProperties.priceLineWidth%22%3A1%2C%22mainSeriesProperties.priceLineColor%22%3A%22%232962FF%22%2C%22mainSeriesProperties.lockScale%22%3Afalse%2C%22mainSeriesProperties.autoScale%22%3Atrue%2C%22mainSeriesProperties.showCountdown%22%3Atrue%7D&enabled_features=%5B%22header_screenshot%22%2C%22timezone_menu%22%2C%22use_localstorage_for_settings%22%2C%22header_undo_redo%22%5D&disabled_features=%5B%22header_fullscreen_button%22%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_efbfc%22%2C%22interval%22%3A%225%22%2C%22hide_legend%22%3A%221%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%221%22%2C%22backgroundColor%22%3A%22%23ffffff%22%2C%22studies%22%3A%22PUB%3Bf6e13cfa8fb1462493984f329925c02b%5Cu001fPUB%3B6ac2587549144bc9a8cd6ae15730895b%5Cu001fPUB%3Baf2dc588b5f34409a046f96b625c9b6b%5Cu001fPUB%3B06fc6d6e9252415c9afdac437e0764dc%22%2C%22theme%22%3A%22light%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Europe%2FLondon%22%2C%22hide_volume%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22jifulive.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%2C%22page-uri%22%3A%22jifulive.com%2Feducation%2Fscanners%22%7D"
+               target="_blank" rel="noopener noreferrer">Open in new tab</a>
+          </div>
+        </div>
 
-      <section class="panel">
-        <h2>
-          Embedded TradingView Widget
-          <a href="https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%22scalesProperties.scaleSeriesOnly%22%3Atrue%2C%22mainSeriesProperties.candleStyle.upColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.downColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.borderUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.borderDownColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.wickUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.wickDownColor%22%3A%22%23ef5350%22%2C%22paneProperties.background%22%3A%22%23131722%22%2C%22paneProperties.vertGridProperties.color%22%3A%22%23000000%22%2C%22paneProperties.horzGridProperties.color%22%3A%22%23000000%22%2C%22scalesProperties.textColor%22%3A%22%23AAA%22%2C%22mainSeriesProperties.visible%22%3Atrue%2C%22mainSeriesProperties.showPriceLine%22%3Atrue%2C%22mainSeriesProperties.priceLineWidth%22%3A1%2C%22mainSeriesProperties.priceLineColor%22%3A%22%232962FF%22%2C%22mainSeriesProperties.lockScale%22%3Afalse%2C%22mainSeriesProperties.autoScale%22%3Atrue%2C%22mainSeriesProperties.showCountdown%22%3Atrue%7D&enabled_features=%5B%22header_screenshot%22%2C%22timezone_menu%22%2C%22use_localstorage_for_settings%22%2C%22header_undo_redo%22%5D&disabled_features=%5B%22header_fullscreen_button%22%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_efbfc%22%2C%22interval%22%3A%225%22%2C%22hide_legend%22%3A%221%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%221%22%2C%22backgroundColor%22%3A%22%23ffffff%22%2C%22studies%22%3A%22PUB%3Bf6e13cfa8fb1462493984f329925c02b%5Cu001fPUB%3B6ac2587549144bc9a8cd6ae15730895b%5Cu001fPUB%3Baf2dc588b5f34409a046f96b625c9b6b%5Cu001fPUB%3B06fc6d6e9252415c9afdac437e0764dc%22%2C%22theme%22%3A%22light%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Europe%2FLondon%22%2C%22hide_volume%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22jifulive.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%2C%22page-uri%22%3A%22jifulive.com%2Feducation%2Fscanners%22%7D"
-             target="_blank" rel="noopener noreferrer">Open in new tab</a>
-        </h2>
         <iframe
-          src="https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%22scalesProperties.scaleSeriesOnly%22%3Atrue%2C%22mainSeriesProperties.candleStyle.upColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.downColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.borderUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.borderDownColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.wickUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.wickDownColor%22%3A%22%23ef5350%22%2C%22paneProperties.background%22%3A%22%23131722%22%2C%22paneProperties.vertGridProperties.color%22%3A%22000000%22%2C%22paneProperties.horzGridProperties.color%22%3A%22000000%22%2C%22scalesProperties.textColor%22%3A%22%23AAA%22%2C%22mainSeriesProperties.visible%22%3Atrue%2C%22mainSeriesProperties.showPriceLine%22%3Atrue%2C%22mainSeriesProperties.priceLineWidth%22%3A1%2C%22mainSeriesProperties.priceLineColor%22%3A%22%232962FF%22%2C%22mainSeriesProperties.lockScale%22%3Afalse%2C%22mainSeriesProperties.autoScale%22%3Atrue%2C%22mainSeriesProperties.showCountdown%22%3Atrue%7D&enabled_features=%5B%22header_screenshot%22%2C%22timezone_menu%22%2C%22use_localstorage_for_settings%22%2C%22header_undo_redo%22%5D&disabled_features=%5B%22header_fullscreen_button%22%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_efbfc%22%2C%22interval%22%3A%225%22%2C%22hide_legend%22%3A%221%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%221%22%2C%22backgroundColor%22%3A%22%23ffffff%22%2C%22studies%22%3A%22PUB%3Bf6e13cfa8fb1462493984f329925c02b%5Cu001fPUB%3B6ac2587549144bc9a8cd6ae15730895b%5Cu001fPUB%3Baf2dc588b5f34409a046f96b625c9b6b%5Cu001fPUB%3B06fc6d6e9252415c9afdac437e0764dc%22%2C%22theme%22%3A%22light%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Europe%2FLondon%22%2C%22hide_volume%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22jifulive.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%2C%22page-uri%22%3A%22jifulive.com%2Feducation%2Fscanners%22%7D"
+          title="TradingView"
           loading="lazy"
-          referrerpolicy="no-referrer"
           allow="fullscreen; clipboard-write"
-        ></iframe>
+          referrerpolicy="no-referrer"
+          src="https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%22scalesProperties.scaleSeriesOnly%22%3Atrue%2C%22mainSeriesProperties.candleStyle.upColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.downColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.borderUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.borderDownColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.wickUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.wickDownColor%22%3A%22%23ef5350%22%2C%22paneProperties.background%22%3A%22%23131722%22%2C%22paneProperties.vertGridProperties.color%22%3A%22%23000000%22%2C%22paneProperties.horzGridProperties.color%22%3A%22%23000000%22%2C%22scalesProperties.textColor%22%3A%22%23AAA%22%2C%22mainSeriesProperties.visible%22%3Atrue%2C%22mainSeriesProperties.showPriceLine%22%3Atrue%2C%22mainSeriesProperties.priceLineWidth%22%3A1%2C%22mainSeriesProperties.priceLineColor%22%3A%22%232962FF%22%2C%22mainSeriesProperties.lockScale%22%3Afalse%2C%22mainSeriesProperties.autoScale%22%3Atrue%2C%22mainSeriesProperties.showCountdown%22%3Atrue%7D&enabled_features=%5B%22header_screenshot%22%2C%22timezone_menu%22%2C%22use_localstorage_for_settings%22%2C%22header_undo_redo%22%5D&disabled_features=%5B%22header_fullscreen_button%22%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_efbfc%22%2C%22interval%22%3A%225%22%2C%22hide_legend%22%3A%221%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%221%22%2C%22backgroundColor%22%3A%22%23ffffff%22%2C%22studies%22%3A%22PUB%3Bf6e13cfa8fb1462493984f329925c02b%5Cu001fPUB%3B6ac2587549144bc9a8cd6ae15730895b%5Cu001fPUB%3Baf2dc588b5f34409a046f96b625c9b6b%5Cu001fPUB%3B06fc6d6e9252415c9afdac437e0764dc%22%2C%22theme%22%3A%22light%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Europe%2FLondon%22%2C%22hide_volume%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22jifulive.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%2C%22page-uri%22%3A%22jifulive.com%2Feducation%2Fscanners%22%7D">
+        </iframe>
+
+        <div class="hint">Tip: On mobile, rotate your phone for more chart space.</div>
       </section>
-    </div>
+
+      <!-- Link 1 view -->
+      <section id="view-link1" class="panel hidden" role="tabpanel" aria-labelledby="tab-link1">
+        <div class="panelHeader">
+          <div class="label">Link 1</div>
+          <div class="right">
+            <a class="btn primary" href="https://tinyurl.com/58s3ufy7" target="_blank" rel="noopener noreferrer">Open in new tab</a>
+          </div>
+        </div>
+
+        <iframe
+          title="Link 1"
+          loading="lazy"
+          referrerpolicy="no-referrer"
+          src="https://tinyurl.com/58s3ufy7">
+        </iframe>
+
+        <div class="hint">If this area is blank, the destination site is likely blocking embedding. Use the button above.</div>
+      </section>
+
+      <!-- Split view -->
+      <section id="view-split" class="hidden" role="tabpanel" aria-labelledby="tab-split">
+        <div class="splitRow">
+          <div class="panel">
+            <div class="panelHeader">
+              <div class="label">TradingView</div>
+              <div class="right">
+                <a class="btn success" href="https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%22scalesProperties.scaleSeriesOnly%22%3Atrue%2C%22mainSeriesProperties.candleStyle.upColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.downColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.borderUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.borderDownColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.wickUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.wickDownColor%22%3A%22%23ef5350%22%2C%22paneProperties.background%22%3A%22%23131722%22%2C%22paneProperties.vertGridProperties.color%22%3A%22%23000000%22%2C%22paneProperties.horzGridProperties.color%22%3A%22%23000000%22%2C%22scalesProperties.textColor%22%3A%22%23AAA%22%2C%22mainSeriesProperties.visible%22%3Atrue%2C%22mainSeriesProperties.showPriceLine%22%3Atrue%2C%22mainSeriesProperties.priceLineWidth%22%3A1%2C%22mainSeriesProperties.priceLineColor%22%3A%22%232962FF%22%2C%22mainSeriesProperties.lockScale%22%3Afalse%2C%22mainSeriesProperties.autoScale%22%3Atrue%2C%22mainSeriesProperties.showCountdown%22%3Atrue%7D&enabled_features=%5B%22header_screenshot%22%2C%22timezone_menu%22%2C%22use_localstorage_for_settings%22%2C%22header_undo_redo%22%5D&disabled_features=%5B%22header_fullscreen_button%22%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_efbfc%22%2C%22interval%22%3A%225%22%2C%22hide_legend%22%3A%221%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%221%22%2C%22backgroundColor%22%3A%22%23ffffff%22%2C%22studies%22%3A%22PUB%3Bf6e13cfa8fb1462493984f329925c02b%5Cu001fPUB%3B6ac2587549144bc9a8cd6ae15730895b%5Cu001fPUB%3Baf2dc588b5f34409a046f96b625c9b6b%5Cu001fPUB%3B06fc6d6e9252415c9afdac437e0764dc%22%2C%22theme%22%3A%22light%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Europe%2FLondon%22%2C%22hide_volume%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22jifulive.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%2C%22page-uri%22%3A%22jifulive.com%2Feducation%2Fscanners%22%7D"
+                   target="_blank" rel="noopener noreferrer">New tab</a>
+              </div>
+            </div>
+            <iframe
+              title="TradingView Split"
+              loading="lazy"
+              allow="fullscreen; clipboard-write"
+              referrerpolicy="no-referrer"
+              src="https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%22scalesProperties.scaleSeriesOnly%22%3Atrue%2C%22mainSeriesProperties.candleStyle.upColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.downColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.borderUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.borderDownColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.wickUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.wickDownColor%22%3A%22%23ef5350%22%2C%22paneProperties.background%22%3A%22%23131722%22%2C%22paneProperties.vertGridProperties.color%22%3A%22%23000000%22%2C%22paneProperties.horzGridProperties.color%22%3A%22%23000000%22%2C%22scalesProperties.textColor%22%3A%22%23AAA%22%2C%22mainSeriesProperties.visible%22%3Atrue%2C%22mainSeriesProperties.showPriceLine%22%3Atrue%2C%22mainSeriesProperties.priceLineWidth%22%3A1%2C%22mainSeriesProperties.priceLineColor%22%3A%22%232962FF%22%2C%22mainSeriesProperties.lockScale%22%3Afalse%2C%22mainSeriesProperties.autoScale%22%3Atrue%2C%22mainSeriesProperties.showCountdown%22%3Atrue%7D&enabled_features=%5B%22header_screenshot%22%2C%22timezone_menu%22%2C%22use_localstorage_for_settings%22%2C%22header_undo_redo%22%5D&disabled_features=%5B%22header_fullscreen_button%22%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_efbfc%22%2C%22interval%22%3A%225%22%2C%22hide_legend%22%3A%221%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%221%22%2C%22backgroundColor%22%3A%22%23ffffff%22%2C%22studies%22%3A%22PUB%3Bf6e13cfa8fb1462493984f329925c02b%5Cu001fPUB%3B6ac2587549144bc9a8cd6ae15730895b%5Cu001fPUB%3Baf2dc588b5f34409a046f96b625c9b6b%5Cu001fPUB%3B06fc6d6e9252415c9afdac437e0764dc%22%2C%22theme%22%3A%22light%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Europe%2FLondon%22%2C%22hide_volume%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22jifulive.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%2C%22page-uri%22%3A%22jifulive.com%2Feducation%2Fscanners%22%7D">
+            </iframe>
+          </div>
+
+          <div class="panel">
+            <div class="panelHeader">
+              <div class="label">Link 1</div>
+              <div class="right">
+                <a class="btn primary" href="https://tinyurl.com/58s3ufy7" target="_blank" rel="noopener noreferrer">New tab</a>
+              </div>
+            </div>
+            <iframe
+              title="Link 1 Split"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+              src="https://tinyurl.com/58s3ufy7">
+            </iframe>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
+
+  <script>
+    const tabs = [
+      { tab: "tab-tv", panel: "view-tv" },
+      { tab: "tab-link1", panel: "view-link1" },
+      { tab: "tab-split", panel: "view-split" },
+    ];
+
+    function setActive(tabId){
+      for (const t of tabs){
+        const tabEl = document.getElementById(t.tab);
+        const panelEl = document.getElementById(t.panel);
+
+        const active = (t.tab === tabId);
+        tabEl.setAttribute("aria-selected", active ? "true" : "false");
+        panelEl.classList.toggle("hidden", !active);
+      }
+    }
+
+    for (const t of tabs){
+      document.getElementById(t.tab).addEventListener("click", () => setActive(t.tab));
+    }
+
+    // Optional: support hash navigation (#tv, #link1, #split)
+    const hash = (location.hash || "").replace("#", "");
+    if (hash === "link1") setActive("tab-link1");
+    else if (hash === "split") setActive("tab-split");
+    else setActive("tab-tv");
+  </script>
 </body>
 </html>
