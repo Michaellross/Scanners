@@ -7,192 +7,219 @@
   <meta name="color-scheme" content="light dark" />
   <style>
     :root{
-  --bg:#0f172a;              /* deep slate */
-  --bg-secondary:#111827;    /* panel base */
-  --surface:#1f2937;         /* header/panel top */
-  --border:#2b3648;
-  --text:#e5e7eb;
-  --muted:#94a3b8;
-  --accent:#3b82f6;
-  --success:#10b981;
-  --shadow:none;
-  --radius:14px;
-}
+      --bg:#0f172a;              /* deep slate */
+      --bg-secondary:#111827;    /* panel base */
+      --surface:#1f2937;         /* header/panel top */
+      --border:#2b3648;
+      --text:#e5e7eb;
+      --muted:#94a3b8;
+      --accent:#3b82f6;
+      --success:#10b981;
+      --shadow:none;
+      --radius:14px;
+    }
 
-*{ box-sizing:border-box; }
+    *{ box-sizing:border-box; }
 
-html, body{
-  height:100%;
-}
+    html, body{ height:100%; }
 
-body{
-  margin:0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  background:var(--bg);
-  color:var(--text);
-}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
 
-/* Layout */
-.container{
-  min-height:100%;
-  max-width:1320px;
-  margin:0 auto;
-  padding:24px;
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-}
+    /* Layout */
+    .container{
+      min-height:100%;
+      max-width:1320px;
+      margin:0 auto;
+      padding:24px;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
 
-/* Top bar */
-.topbar{
-  background:var(--bg-secondary);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:18px;
-}
+    /* Top bar */
+    .topbar{
+      background:var(--bg-secondary);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:18px;
+    }
 
-.brand h1{
-  margin:0;
-  font-size:16px;
-  font-weight:700;
-  letter-spacing:.4px;
-}
+    .topRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
 
-.subtitle{
-  font-size:12px;
-  color:var(--muted);
-  margin-top:6px;
-}
+    .brand h1{
+      margin:0;
+      font-size:16px;
+      font-weight:700;
+      letter-spacing:.4px;
+    }
 
-.controls{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
+    .subtitle{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:6px;
+    }
 
-/* Buttons */
-.btn{
-  border:1px solid var(--border);
-  background:var(--surface);
-  color:var(--text);
-  border-radius:10px;
-  padding:8px 12px;
-  font-size:12px;
-  font-weight:600;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  transition:all .12s ease;
-}
+    .controls{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
 
-.btn:hover{
-  border-color:var(--accent);
-  color:white;
-}
+    /* Buttons */
+    .btn{
+      border:1px solid var(--border);
+      background:var(--surface);
+      color:var(--text);
+      border-radius:10px;
+      padding:8px 12px;
+      font-size:12px;
+      font-weight:600;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      transition:all .12s ease;
+      text-decoration:none;
+    }
 
-.btn.primary{
-  border-color:var(--accent);
-  background:#1e293b;
-}
+    .btn:hover{
+      border-color:var(--accent);
+      color:white;
+    }
 
-.btn.ok{
-  border-color:var(--success);
-  background:#1e293b;
-}
+    .btn.primary{
+      border-color:var(--accent);
+      background:#1e293b;
+    }
 
-/* Tabs */
-.tabs{
-  margin-top:14px;
-  display:flex;
-  gap:8px;
-}
+    .btn.ok{
+      border-color:var(--success);
+      background:#1e293b;
+    }
 
-.tab{
-  background:transparent;
-  border:1px solid var(--border);
-  color:var(--muted);
-  padding:8px 14px;
-  border-radius:8px;
-  font-size:12px;
-  font-weight:600;
-  cursor:pointer;
-}
+    /* Tabs */
+    .tabs{
+      margin-top:14px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
 
-.tab[aria-selected="true"]{
-  background:var(--surface);
-  border-color:var(--accent);
-  color:var(--text);
-}
+    .tab{
+      background:transparent;
+      border:1px solid var(--border);
+      color:var(--muted);
+      padding:8px 14px;
+      border-radius:8px;
+      font-size:12px;
+      font-weight:600;
+      cursor:pointer;
+    }
 
-/* Panels */
-.panel{
-  flex:1;
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  background:var(--bg-secondary);
-  display:flex;
-  flex-direction:column;
-  min-height:75vh;
-}
+    .tab[aria-selected="true"]{
+      background:var(--surface);
+      border-color:var(--accent);
+      color:var(--text);
+    }
 
-.panelHeader{
-  background:var(--surface);
-  border-bottom:1px solid var(--border);
-  padding:10px 14px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
+    /* Main / Panels */
+    .main{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
 
-.panelHeader .label{
-  font-size:12px;
-  font-weight:700;
-  letter-spacing:.3px;
-  text-transform:uppercase;
-}
+    .panel{
+      flex:1;
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      background:var(--bg-secondary);
+      display:flex;
+      flex-direction:column;
+      min-height:75vh;
+      overflow:hidden;
+    }
 
-/* Remove colorful dot glow */
-.dot{
-  width:8px;
-  height:8px;
-  background:var(--accent);
-  border-radius:50%;
-}
+    .panelHeader{
+      background:var(--surface);
+      border-bottom:1px solid var(--border);
+      padding:10px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
 
-/* Iframe */
-iframe{
-  width:100%;
-  height:100%;
-  flex:1;
-  border:0;
-  background:black;
-}
+    .panelHeader .left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width: 200px;
+    }
 
-/* Hint bar */
-.hint{
-  border-top:1px solid var(--border);
-  padding:10px 14px;
-  font-size:11px;
-  color:var(--muted);
-  background:#0b1220;
-}
+    .panelHeader .right{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
 
-/* Split view desktop */
-@media (min-width: 980px){
-  .splitRow{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
-  }
-}
+    .panelHeader .label{
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.3px;
+      text-transform:uppercase;
+    }
 
-/* Fullscreen cleanup */
-.panel:fullscreen{
-  border-radius:0;
-}
+    .dot{
+      width:8px;
+      height:8px;
+      background:var(--accent);
+      border-radius:50%;
+    }
 
-.hidden{ display:none !important; }
+    iframe{
+      width:100%;
+      height:100%;
+      flex:1;
+      border:0;
+      background:black;
+    }
+
+    .hint{
+      border-top:1px solid var(--border);
+      padding:10px 14px;
+      font-size:11px;
+      color:var(--muted);
+      background:#0b1220;
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+    }
+
+    /* Fullscreen cleanup */
+    .panel:fullscreen{
+      border-radius:0;
+    }
+    .panel:-webkit-full-screen{
+      border-radius:0;
+    }
+
+    .hidden{ display:none !important; }
   </style>
 </head>
 
@@ -201,9 +228,7 @@ iframe{
     <div class="topbar">
       <div class="topRow">
         <div class="brand">
-          <h1>
-            Scanner Dashboard
-          </h1>
+          <h1>Scanner Dashboard</h1>
           <p class="subtitle">
             Tabs switch between views. Use <strong>Fullscreen</strong> to maximize the current panel. If a page won’t load,
             use <strong>Open in new tab</strong>.
@@ -220,13 +245,13 @@ iframe{
       <div class="tabs" role="tablist" aria-label="Views">
         <button class="tab" id="tab-tv" role="tab" aria-selected="true" aria-controls="view-tv">Trend Wave</button>
         <button class="tab" id="tab-link1" role="tab" aria-selected="false" aria-controls="view-link1">Sniper Pro</button>
-        <button class="tab" id="tab-split" role="tab" aria-selected="false" aria-controls="view-split">Split View</button>
+        <button class="tab" id="tab-golden" role="tab" aria-selected="false" aria-controls="view-golden">Golden Era</button>
       </div>
     </div>
 
     <main class="main">
-      <!-- TradingView -->
-      <section id="view-tv" class="panel" role="tabpanel" aria-labelledby="tab-tv" data-open-url="">
+      <!-- Trend Wave (TradingView) -->
+      <section id="view-tv" class="panel" role="tabpanel" aria-labelledby="tab-tv">
         <div class="panelHeader">
           <div class="left">
             <span class="dot" aria-hidden="true"></span>
@@ -238,11 +263,10 @@ iframe{
         </div>
 
         <iframe id="tvFrame"
-          title="TradingView"
+          title="Trend Wave"
           loading="lazy"
           allow="fullscreen; clipboard-write"
-          referrerpolicy="no-referrer">
-        </iframe>
+          referrerpolicy="no-referrer"></iframe>
 
         <div class="hint">
           <span>💡</span>
@@ -250,8 +274,8 @@ iframe{
         </div>
       </section>
 
-      <!-- Link 1 -->
-      <section id="view-link1" class="panel hidden" role="tabpanel" aria-labelledby="tab-link1" data-open-url="">
+      <!-- Sniper Pro -->
+      <section id="view-link1" class="panel hidden" role="tabpanel" aria-labelledby="tab-link1">
         <div class="panelHeader">
           <div class="left">
             <span class="dot" aria-hidden="true"></span>
@@ -263,10 +287,9 @@ iframe{
         </div>
 
         <iframe id="l1Frame"
-          title="Link 1"
+          title="Sniper Pro"
           loading="lazy"
-          referrerpolicy="no-referrer">
-        </iframe>
+          referrerpolicy="no-referrer"></iframe>
 
         <div class="hint">
           <span>🔒</span>
@@ -274,41 +297,26 @@ iframe{
         </div>
       </section>
 
-      <!-- Split -->
-      <section id="view-split" class="hidden" role="tabpanel" aria-labelledby="tab-split">
-        <div class="splitRow">
-          <div class="panel" id="splitLeft">
-            <div class="panelHeader">
-              <div class="left">
-                <span class="dot" aria-hidden="true"></span>
-                <div class="label">TradingView</div>
-              </div>
-              <div class="right">
-                <a class="btn ok" id="tvNewTab2" target="_blank" rel="noopener noreferrer">↗ New tab</a>
-              </div>
-            </div>
-            <iframe id="tvFrame2"
-              title="TradingView Split"
-              loading="lazy"
-              allow="fullscreen; clipboard-write"
-              referrerpolicy="no-referrer"></iframe>
+      <!-- Golden Era -->
+      <section id="view-golden" class="panel hidden" role="tabpanel" aria-labelledby="tab-golden">
+        <div class="panelHeader">
+          <div class="left">
+            <span class="dot" aria-hidden="true"></span>
+            <div class="label">Golden Era</div>
           </div>
+          <div class="right">
+            <a class="btn primary" id="goldenNewTab" target="_blank" rel="noopener noreferrer">↗ New tab</a>
+          </div>
+        </div>
 
-          <div class="panel" id="splitRight">
-            <div class="panelHeader">
-              <div class="left">
-                <span class="dot" aria-hidden="true"></span>
-                <div class="label">Link 1</div>
-              </div>
-              <div class="right">
-                <a class="btn primary" id="l1NewTab2" target="_blank" rel="noopener noreferrer">↗ New tab</a>
-              </div>
-            </div>
-            <iframe id="l1Frame2"
-              title="Link 1 Split"
-              loading="lazy"
-              referrerpolicy="no-referrer"></iframe>
-          </div>
+        <iframe id="goldenFrame"
+          title="Golden Era"
+          loading="lazy"
+          referrerpolicy="no-referrer"></iframe>
+
+        <div class="hint">
+          <span>🔒</span>
+          <div><strong>If this is blank:</strong> the destination site likely blocks embedding. Use “New tab”.</div>
         </div>
       </section>
     </main>
@@ -317,24 +325,23 @@ iframe{
   <script>
     // Your URLs
     const LINK1 = "https://tinyurl.com/58s3ufy7";
+    const GOLDEN = "https://tinyurl.com/sszbazxf";
     const TV = "https://s.tradingview.com/widgetembed/?hideideas=1&overrides=%7B%22scalesProperties.scaleSeriesOnly%22%3Atrue%2C%22mainSeriesProperties.candleStyle.upColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.downColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.borderUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.borderDownColor%22%3A%22%23ef5350%22%2C%22mainSeriesProperties.candleStyle.wickUpColor%22%3A%22%2326a69a%22%2C%22mainSeriesProperties.candleStyle.wickDownColor%22%3A%22%23ef5350%22%2C%22paneProperties.background%22%3A%22%23131722%22%2C%22paneProperties.vertGridProperties.color%22%3A%22%23000000%22%2C%22paneProperties.horzGridProperties.color%22%3A%22%23000000%22%2C%22scalesProperties.textColor%22%3A%22%23AAA%22%2C%22mainSeriesProperties.visible%22%3Atrue%2C%22mainSeriesProperties.showPriceLine%22%3Atrue%2C%22mainSeriesProperties.priceLineWidth%22%3A1%2C%22mainSeriesProperties.priceLineColor%22%3A%22%232962FF%22%2C%22mainSeriesProperties.lockScale%22%3Afalse%2C%22mainSeriesProperties.autoScale%22%3Atrue%2C%22mainSeriesProperties.showCountdown%22%3Atrue%7D&enabled_features=%5B%22header_screenshot%22%2C%22timezone_menu%22%2C%22use_localstorage_for_settings%22%2C%22header_undo_redo%22%5D&disabled_features=%5B%22header_fullscreen_button%22%5D&locale=en#%7B%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22frameElementId%22%3A%22tradingview_efbfc%22%2C%22interval%22%3A%225%22%2C%22hide_legend%22%3A%221%22%2C%22hide_side_toolbar%22%3A%220%22%2C%22allow_symbol_change%22%3A%221%22%2C%22save_image%22%3A%221%22%2C%22backgroundColor%22%3A%22%23ffffff%22%2C%22studies%22%3A%22PUB%3Bf6e13cfa8fb1462493984f329925c02b%5Cu001fPUB%3B6ac2587549144bc9a8cd6ae15730895b%5Cu001fPUB%3Baf2dc588b5f34409a046f96b625c9b6b%5Cu001fPUB%3B06fc6d6e9252415c9afdac437e0764dc%22%2C%22theme%22%3A%22light%22%2C%22style%22%3A%221%22%2C%22timezone%22%3A%22Europe%2FLondon%22%2C%22hide_volume%22%3A%221%22%2C%22studies_overrides%22%3A%22%7B%7D%22%2C%22utm_source%22%3A%22jifulive.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22chart%22%2C%22utm_term%22%3A%22BINANCE%3ABTCUSDT%22%2C%22page-uri%22%3A%22jifulive.com%2Feducation%2Fscanners%22%7D";
 
     // Wire up iframes and "new tab" links
     document.getElementById("tvFrame").src = TV;
-    document.getElementById("tvFrame2").src = TV;
     document.getElementById("l1Frame").src = LINK1;
-    document.getElementById("l1Frame2").src = LINK1;
+    document.getElementById("goldenFrame").src = GOLDEN;
 
-    const tvNewTab = [ "tvNewTab", "tvNewTab2" ];
-    const l1NewTab = [ "l1NewTab", "l1NewTab2" ];
-    tvNewTab.forEach(id => document.getElementById(id).href = TV);
-    l1NewTab.forEach(id => document.getElementById(id).href = LINK1);
+    document.getElementById("tvNewTab").href = TV;
+    document.getElementById("l1NewTab").href = LINK1;
+    document.getElementById("goldenNewTab").href = GOLDEN;
 
     // Tabs
     const tabs = [
       { tab: "tab-tv", panel: "view-tv" },
       { tab: "tab-link1", panel: "view-link1" },
-      { tab: "tab-split", panel: "view-split" },
+      { tab: "tab-golden", panel: "view-golden" },
     ];
 
     function setActive(tabId){
@@ -355,25 +362,23 @@ iframe{
 
     // Determine current visible panel (for fullscreen + open current)
     function getCurrentPanel(){
-      // Only one of these three views is visible at once
       const tv = document.getElementById("view-tv");
       const l1 = document.getElementById("view-link1");
-      const split = document.getElementById("view-split");
+      const golden = document.getElementById("view-golden");
 
       if (!tv.classList.contains("hidden")) return tv;
       if (!l1.classList.contains("hidden")) return l1;
-      return split; // split view container
+      return golden;
     }
 
     function getCurrentOpenUrl(){
       const tv = document.getElementById("view-tv");
       const l1 = document.getElementById("view-link1");
-      const split = document.getElementById("view-split");
+      const golden = document.getElementById("view-golden");
 
       if (!tv.classList.contains("hidden")) return TV;
       if (!l1.classList.contains("hidden")) return LINK1;
-      // For split, open TradingView by default (you can change this)
-      return TV;
+      return GOLDEN;
     }
 
     // Open current button
@@ -389,14 +394,12 @@ iframe{
     async function enterFullscreen(){
       const panel = getCurrentPanel();
 
-      // Fullscreen API requires a user gesture; this is called from a click.
       const request =
         panel.requestFullscreen ||
         panel.webkitRequestFullscreen ||
         panel.msRequestFullscreen;
 
       if (!request) {
-        // Fallback: open current view in new tab
         window.open(getCurrentOpenUrl(), "_blank", "noopener,noreferrer");
         return;
       }
@@ -404,7 +407,6 @@ iframe{
       try {
         await request.call(panel);
       } catch (e) {
-        // Some browsers block fullscreen in some contexts; fallback.
         window.open(getCurrentOpenUrl(), "_blank", "noopener,noreferrer");
       }
     }
@@ -431,15 +433,13 @@ iframe{
     document.addEventListener("webkitfullscreenchange", onFsChange);
     document.addEventListener("MSFullscreenChange", onFsChange);
 
-    // Optional hash navigation: #tv #link1 #split
+    // Optional hash navigation: #tv #link1 #golden
     const hash = (location.hash || "").replace("#", "");
     if (hash === "link1") setActive("tab-link1");
-    else if (hash === "split") setActive("tab-split");
+    else if (hash === "golden") setActive("tab-golden");
     else setActive("tab-tv");
 
     syncOpenCurrent();
   </script>
 </body>
 </html>
-
-
